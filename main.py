@@ -1,5 +1,6 @@
 from modelos.persona import Person
 from arbol import ArbolBinario
+import coding_decoding
 import json
 import csv
 
@@ -15,7 +16,7 @@ while(menu != None):
     print("5. Eliminar por dpi (individual)")
     print("6. Actualizar por Nombre (rango)")
     print("7. Actualizar por dpi (individual)")
-    print("8. Codificar todos los objetos \"Person\" atributo \"companies\"")
+    print("8. Codificar por dpi")
     print("9. Decodificar por dpi")
     print("10. Salir")
     menu = input()
@@ -148,8 +149,12 @@ while(menu != None):
         else:
             print("No se hacen cambios")
     elif(menu == "8"):
-        print("Codificando el atributo \"companies\" de los objetos \"Person\" insertados...")
-        #metodo de codificacion por el arbol debe de quedar algo estilo ej. 0.723809472903
+        print("Codificando el atributo \"dpi\" de los objetos \"persona\"...")
+        dpi = input("Ingrese el dpi el cual quiere codificar... \n")
+        lista_persona = jsonArbol.buscar_por_dpi(dpi)
+        persona = lista_persona[0]
+        #AUN FALTA AQUI LA LISTA LA DA VACIA
+        
         print("Codificacion exitosa!")
     elif(menu == "9"):
         print("Decodificacion por dpi encodeing")

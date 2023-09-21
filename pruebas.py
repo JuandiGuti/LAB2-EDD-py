@@ -5,28 +5,36 @@ def obtener_numero_codificacion(companies):
 
 def codificar(dpi, companies):
     numero_codificacion = obtener_numero_codificacion(companies)
-    # Convertir ambos números a binario y luego a XOR
-    bin_dpi = bin(dpi)[2:]  # [2:] para quitar el '0b' inicial
-    bin_numero_codificacion = bin(numero_codificacion)[2:]
-
-    # Asegurarse de que ambos tengan la misma longitud, rellenando con ceros
-    max_len = max(len(bin_dpi), len(bin_numero_codificacion))
-    bin_dpi = bin_dpi.zfill(max_len)
-    bin_numero_codificacion = bin_numero_codificacion.zfill(max_len)
-
-    # Realizar la operación XOR
-    bin_codificado = ''.join(['1' if a != b else '0' for a, b in zip(bin_dpi, bin_numero_codificacion)])
     
-    # Convertir de nuevo a entero
-    return int(bin_codificado, 2)
+    # Codificar el DPI usando XOR con el número de codificación
+    dpi_codificado = int(dpi) ^ numero_codificacion
+    
+    # Añadir el número de codificación al final del DPI codificado para usarlo en la decodificación
+    return int(str(dpi_codificado) + str(numero_codificacion).zfill(4))
 
-def decodificar(dpi_codificado, companies):
-    # Dado que XOR es su propia inversa, podemos usar la misma función para decodificar
-    return codificar(dpi_codificado, companies)
+def decodificar(dpi_codificado_con_info):
+    # Extraer el número de codificación del final del DPI
+    numero_codificacion = int(str(dpi_codificado_con_info)[-4:])
+    
+    # Extraer el DPI codificado sin la información añadida
+    dpi_codificado = int(str(dpi_codificado_con_info)[:-4])
+    
+    # Decodificar usando XOR
+    return dpi_codificado ^ numero_codificacion
+
+# Ejemplo de uso:
+persona = {
+    "name": "dennis",
+    "dpi": "4981559841093",
+    "datebirth": "1974-05-02T01:29:03.706Z",
+    "address": "cambridge",
+    "companies": ["Hermiston, Lakin and Jacobi","Parker Inc","Hickle, Ziemann and Legros", "Conn - Huels"]
+}
 
 dpi_codificado = codificar(persona['dpi'], persona['companies'])
 print(f"dpi codificado: {dpi_codificado}")
 
-dpi_decodificado = decodificar(dpi_codificado, persona['companies'])
+dpi_decodificado = decodificar(dpi_codificado)
 print(f"dpi decodificado: {dpi_decodificado}")
+
 

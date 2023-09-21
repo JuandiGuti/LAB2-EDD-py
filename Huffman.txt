@@ -1,0 +1,44 @@
+# Importar módulo heapq para la implementación de la cola de prioridad
+import heapq
+
+def huffman_codificacion(datos):
+    # Calcular la frecuencia de cada carácter en los datos
+    frecuencia = {}
+    for caracter in datos:
+        if caracter in frecuencia:
+            frecuencia[caracter] += 1
+        else:
+            frecuencia[caracter] = 1
+
+    # Crear una cola de prioridad con los caracteres y sus frecuencias
+    cola_prioridad = [[frecuencia[caracter], caracter] for caracter in frecuencia]
+    heapq.heapify(cola_prioridad)
+
+    # Construir el árbol de Huffman
+    while len(cola_prioridad) > 1:
+        menor1 = heapq.heappop(cola_prioridad)
+        menor2 = heapq.heappop(cola_prioridad)
+        heapq.heappush(cola_prioridad, [menor1[0] + menor2[0], [menor1, menor2]])
+
+    arbol_huffman = cola_prioridad[0]
+
+    # Generar los códigos para cada carácter
+    codigos = {}
+    def generar_codigos(nodo, codigo_actual=''):
+        if isinstance(nodo[1], list):
+            generar_codigos(nodo[1][0], codigo_actual + '0')
+            generar_codigos(nodo[1][1], codigo_actual + '1')
+        else:
+            codigos[nodo[1]] = codigo_actual
+
+    generar_codigos(arbol_huffman)
+
+    # Codificar los datos utilizando los códigos generados
+    datos_codificados = ''.join([codigos[caracter] for caracter in datos])
+
+    return datos_codificados
+
+# Ejemplo de uso
+datos = "Hola, mundo!"
+codificacion = huffman_codificacion(datos)
+print(f"Datos codificados: {codificacion}")

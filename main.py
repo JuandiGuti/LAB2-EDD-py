@@ -4,6 +4,7 @@ import coding_decoding
 import json
 import csv
 
+
 jsonArbol = ArbolBinario()
 
 menu = ""
@@ -152,14 +153,28 @@ while(menu != None):
         print("Codificando el atributo \"dpi\" de los objetos \"persona\"...")
         dpi = input("Ingrese el dpi el cual quiere codificar... \n")
         lista_persona = jsonArbol.buscar_por_dpi(dpi)
-        persona = lista_persona[0]
-        #AUN FALTA AQUI LA LISTA LA DA VACIA
-        
-        print("Codificacion exitosa!")
+        if lista_persona != []:
+            persona = lista_persona[0]
+            persona_dpi_codificado = coding_decoding.codificar(dpi, persona.companies)
+            print(f"Codificacion exitosa! , el numero de dpi codificado es: {persona_dpi_codificado}")
+        else:
+            print("No se encuentra a la persona del dpi que ingreso intente de nuevo...")
     elif(menu == "9"):
         print("Decodificacion por dpi encodeing")
-        #Me tiene que ingresar lo que codifique en el metodo 8. ej.0.723809472903
-        dpiencodeing = input("Ingrese el dpi encodeing de la persona que quiere decodificar \n")
-        #Debo de devolver a el objeto Person con todos los datos
+        dpiencodeing = input("Ingrese el dpi codificado de la persona que quiere decodificar \n")
+        dpi = str(coding_decoding.decodificar(dpiencodeing))
+        lista_persona = jsonArbol.buscar_por_dpi(dpi)
+        if lista_persona != []:
+            print("Decodificacion existosa!")
+            print("Nombre:" + lista_persona[0].name)
+            print("Dpi:" + lista_persona[0].dpi)
+            print("Fecha de nacimiento:" + lista_persona[0].datebirth)
+            print("Direccion:" + lista_persona[0].address)
+            print("Companias:" + str(lista_persona[0].companies))
+            print('\n')
+        else:
+            print("No se pudo decodificar...")
+            
+        
     elif(menu == "10"):
         menu = None

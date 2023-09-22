@@ -35,6 +35,7 @@ while(menu != None):
                         jsonPersonaPatch = jsonArbol.buscar(jsonPersona)
                         jsonPersonaPatch.datebirth = jsonPersona.datebirth
                         jsonPersonaPatch.address = jsonPersona.address
+                        jsonPersonaPatch.companies = jsonPersona.companies
                         jsonArbol.eliminar(jsonPersona)
                         jsonArbol.insertar(jsonPersonaPatch)
                     else:
